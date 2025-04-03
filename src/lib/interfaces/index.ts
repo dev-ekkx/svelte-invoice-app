@@ -1,9 +1,13 @@
-import type { HTMLButtonAttributes } from 'svelte/elements';
-import type { Snippet } from 'svelte';
+import type { HTMLButtonAttributes } from "svelte/elements";
+import type { Snippet } from "svelte";
 
 export interface ButtonInterface extends HTMLButtonAttributes {
 	children?: Snippet;
-	size?: 'sm' | 'md' | 'lg' | null;
-	color?: 'primary' | 'secondary' | 'tertiary' | 'danger' | null;
+	size?: "sm" | "md" | "lg" | null;
+	color?: "primary" | "secondary" | "tertiary" | "danger" | null;
 	isIcon?: boolean;
+}
+
+export interface StatusChipInterface {
+	status: "paid" | "pending" | "draft";
 }

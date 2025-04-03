@@ -2,6 +2,10 @@
 
 @theme {
   --color-background: oklch(0.98 0.004 286.33);
+  --color-success: oklch(0.78 0.1527 164.84);
+  --color-success-light: oklch(0.97 0.044 163.889);
+  --color-warning: oklch(0.76 0.177697 59.6859);
+  --color-warning-light: oklch(0.966 0.049 93.383);
   --color-error: oklch(0.65 0.1845 23.71);
   --color-error-light: oklch(0.78 0.1252 20.28);
   --color-black: oklch(0.17 0.0172 273.52);
