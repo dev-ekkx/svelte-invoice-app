@@ -14,12 +14,12 @@
         primary: 'bg-purple-400 text-white hover:bg-purple-300',
         secondary: 'bg-gray-500 text-black',
         tertiary: '',
-        danger: ''
+        danger: 'bg-error hover:bg-error-light'
       },
       size: {
         sm: 'text-sm',
         md: 'text-md',
-        lg: 'text-lg'
+        lg: 'w-full justify-center'
       }
     },
     defaultVariants: {
