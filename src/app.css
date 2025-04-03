@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
 @theme {
+  --color-background: oklch(0.98 0.004 286.33);
   --color-error: oklch(0.65 0.1845 23.71);
   --color-error-light: oklch(0.78 0.1252 20.28);
   --color-black: oklch(0.17 0.0172 273.52);
@@ -13,4 +14,15 @@
   --color-neutral-200: oklch(0.65 0.0511 277.06);
   --color-neutral-300: oklch(0.29 0.0513 276.54);
   --color-neutral-400: oklch(0.26 0.0453 277.29)
+}
+
+* {
+  font-family: "League Spartan", sans-serif;
+  font-optical-sizing: auto;
+}
+
+::-webkit-scrollbar {
+  display: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
