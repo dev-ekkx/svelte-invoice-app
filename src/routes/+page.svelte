@@ -1,2 +1,8 @@
-<h1 class="bg-error">Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script>
+  import Button from '$lib/components/button.svelte';
+</script>
+<Button
+  isIcon
+>
+  Click me
+</Button>
