@@ -28,7 +28,7 @@
       <img src={emptyState} alt="empty state">
       <div class="flex flex-col gap-5 items-center w-5/12">
         <span class="font-semibold text-3xl">There is nothing here</span>
-        <span class="text-neutral-200 text-center">  Create an invoice by clicking the
+        <span class="text-neutral-200 text-justify line-clamp-2 w-7/12">  Create an invoice by clicking the
 <span class="font-bold">New Invoice</span> button and get started</span>
       </div>
     </div>
