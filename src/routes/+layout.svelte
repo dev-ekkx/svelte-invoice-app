@@ -1,11 +1,11 @@
 <script lang="ts">
-  import '../app.css';
-  import logo from '$lib/assets/logo.svg';
+  import "../app.css";
+  import logo from "$lib/assets/logo.svg";
 
   let { children } = $props();
 </script>
-<article class="bg-background flex w-screen h-screen">
-  <aside class="h-full w-[5.5rem] bg-neutral-300 rounded-r-2xl flex flex-col justify-between">
+<article class="bg-background flex w-screen h-screen relative">
+  <aside class="z-50 h-full w-[5.5rem] bg-neutral-300 rounded-r-2xl flex flex-col justify-between">
     <img alt="logo" src={logo}>
     <div class="flex flex-col gap-2 items-center justify-center py-4">
       <button>Toggle</button>
@@ -16,4 +16,5 @@
   <main class="flex-1 flex flex-col gap-8 pt-20">
     {@render children()}
   </main>
+
 </article>

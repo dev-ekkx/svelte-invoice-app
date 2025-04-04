@@ -2,6 +2,7 @@
   import Button from "$lib/components/button.svelte";
   import Invoice from "$lib/components/invoice.svelte";
   import emptyState from "$lib/assets/empty.svg";
+  import AddInvoice from "$lib/components/add-invoice.svelte";
 </script>
 
 
@@ -34,6 +35,8 @@
     </div>
   {/each}
 </section>
+
+<AddInvoice />
 
 <style>
   .base-width {
