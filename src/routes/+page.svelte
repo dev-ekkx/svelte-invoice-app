@@ -21,7 +21,6 @@
 </header>
 
 <section class="base-width  grid gap-4 overflow-y-auto">
-
   {#each Array(20) as a, index}
     <Invoice />
   {:else}

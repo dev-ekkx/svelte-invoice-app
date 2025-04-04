@@ -17,3 +17,9 @@ export interface InputInterface extends HTMLInputAttributes {
 export interface StatusChipInterface {
 	status: "paid" | "pending" | "draft";
 }
+
+export interface ListItemInterface {
+	itemName: string;
+	quantity: number;
+	price: number;
+}
