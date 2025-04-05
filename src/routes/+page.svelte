@@ -3,6 +3,15 @@
   import Invoice from "$lib/components/invoice.svelte";
   import emptyState from "$lib/assets/empty.svg";
   import AddInvoice from "$lib/components/add-invoice.svelte";
+  import { fade } from "svelte/transition";
+
+  let showMutateInvoiceModal = $state(false);
+  const showModal = () => {
+    showMutateInvoiceModal = true;
+  };
+  const discardModal = () => {
+    showMutateInvoiceModal = false;
+  };
 </script>
 
 
@@ -14,6 +23,7 @@
   <div class="flex items-center gap-4">
     <Button
       isIcon
+      onclick={showModal}
     >
       New Invoice
     </Button>
@@ -35,7 +45,11 @@
   {/each}
 </section>
 
-<AddInvoice />
+{#if showMutateInvoiceModal}
+  <div transition:fade={{ duration: 200 }}>
+    <AddInvoice discardModal={discardModal} />
+  </div>
+{/if}
 
 <style>
   .base-width {

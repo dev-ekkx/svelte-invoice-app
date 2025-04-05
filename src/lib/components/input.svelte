@@ -2,7 +2,7 @@
   import type { InputInterface } from "$lib/interfaces";
   import { cn } from "$lib/utils/utils";
 
-  let { label, class: outerClass, inputClass, ...inputProps }: InputInterface = $props();
+  let { label, class: outerClass, inputClass, items, ...inputProps }: InputInterface = $props();
 
   let error = false;
 </script>
@@ -14,9 +14,25 @@
       <span class="text-sm text-error">can't be empty</span>
     {/if}
   </div>
-  <input {...inputProps}
-         class={cn("w-full h-[3rem] px-4 transition-all duration-200 ease-linear border border-neutral-200 text-dark font-semibold rounded-md hover:ring-2 ring-offset-2 ring-purple-400 outline-purple-400 focus:ring-2", {
+  {#if inputProps.type === "select"}
+    <select
+      class={cn("w-full h-[3rem] px-4 transition-all duration-200 ease-linear border border-neutral-200 text-dark font-semibold rounded-md hover:ring-2 ring-offset-2 ring-purple-400 outline-purple-400 focus:ring-2", {
+              "border-error ring-2 ring-error focus:ring-error outline-error text-error placeholder:text-error": error
+            }, inputClass)}>
+      {#if items}
+        {#each items as item (item.value)}
+          <option value={item.value} selected={item.selected}>{item.label}</option>
+        {/each}
+      {:else}
+        <option value="" selected disabled hidden>{inputProps.placeholder}</option>
+      {/if}
+
+    </select>
+  {:else}
+    <input {...inputProps}
+           class={cn("w-full h-[3rem] px-4 transition-all duration-200 ease-linear border border-neutral-200 text-dark font-semibold rounded-md hover:ring-2 ring-offset-2 ring-purple-400 outline-purple-400 focus:ring-2", {
            "border-error ring-2 ring-error focus:ring-error outline-error text-error placeholder:text-error": error
          }, inputClass)}
-         name={inputProps.name ?? inputProps.id} />
+           name={inputProps.name ?? inputProps.id} />
+  {/if}
 </div>

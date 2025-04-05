@@ -9,10 +9,11 @@ export interface ButtonInterface extends HTMLButtonAttributes {
 }
 
 export interface InputInterface extends HTMLInputAttributes {
-	type: "text" | "email" | "password" | "number" | "tel" | "date";
+	type: "text" | "email" | "password" | "number" | "tel" | "date" | "select";
 	label?: string;
 	errorMessage?: string;
 	inputClass?: string;
+	items?: Array<{ value: string; label: string; selected?: boolean }>;
 }
 
 export interface StatusChipInterface {

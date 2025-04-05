@@ -2,8 +2,16 @@
   import Input from "$lib/components/input.svelte";
   import Button from "$lib/components/button.svelte";
   import type { ListItemInterface } from "$lib/interfaces";
+  import { fade } from "svelte/transition";
+
+  let { discardModal } = $props();
 
   let items = $state<ListItemInterface[]>([]);
+  let dropdownItems = [
+    { value: "net-30", label: "Net 30 days", selected: true },
+    { value: "net-60", label: "Net 60 days" },
+    { value: "net-90", label: "Net 90 days" }
+  ];
 
   const addItem = () => {
     items.push({
@@ -115,9 +123,10 @@
             <Input
               class="w-full"
               id="payment-terms"
+              items={dropdownItems}
               label="payment terms"
               placeholder="Net 30 days"
-              type="text"
+              type="select"
             />
           </div>
         </div>
@@ -126,7 +135,7 @@
         <span class="font-bold text-md text-neutral-200 text-2xl capitalize">item list</span>
         <div class="flex flex-col gap-6">
           {#each items as item, index (item.id)}
-            <div class="grid grid-cols-10 gap-4">
+            <div class="grid grid-cols-10 gap-4" transition:fade>
               <Input
                 class="col-span-4"
                 id={item.itemName+item.id}
@@ -142,8 +151,8 @@
                 inputClass="px-2 text-center"
               />
               <Input
-                class="col-span-2"
                 id={item.price+item.id}
+                class="col-span-2"
                 label={index === 0 ? "price" : undefined}
                 placeholder="1.99"
                 type="number"
@@ -172,7 +181,7 @@
       </div>
     </div>
     <div class="flex items-center justify-between gap-4">
-      <Button color="tertiary">Discard</Button>
+      <Button color="tertiary" onclick={discardModal}>Discard</Button>
       <div class="flex items-center gap-4">
         <Button class="text-purple-200 bg-neutral-300 hover:bg-neutral-300 font-bold">Save as Draft</Button>
         <Button>Save & Send</Button>
