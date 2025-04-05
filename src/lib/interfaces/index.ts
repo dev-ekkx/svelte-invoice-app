@@ -12,6 +12,7 @@ export interface InputInterface extends HTMLInputAttributes {
 	type: "text" | "email" | "password" | "number" | "tel";
 	label?: string;
 	errorMessage?: string;
+	inputClass?: string;
 }
 
 export interface StatusChipInterface {
@@ -19,6 +20,7 @@ export interface StatusChipInterface {
 }
 
 export interface ListItemInterface {
+	id: string;
 	itemName: string;
 	quantity: number;
 	price: number;

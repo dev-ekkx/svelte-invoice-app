@@ -7,20 +7,30 @@
 
   const addItem = () => {
     items.push({
+      id: crypto.randomUUID(),
       itemName: "",
       quantity: 0,
       price: 0
     });
   };
+
+  $effect(() => {
+    $inspect(items);
+  });
+
+  const removeItem = (id: string) => {
+    items = items.filter((item) => item.id !== id);
+
+  };
 </script>
 <div
   class="z-10 top-0 left-0 absolute w-screen h-screen bg-black/50">
-  <section class="w-6/12 xl:w-4/12 rounded-r-2xl bg-white flex flex-col gap-8 p-6 pr-14 pl-36 pt-10 h-full">
+  <section class="w-6/12 xl:w-5/12 rounded-r-2xl bg-white flex flex-col gap-8 p-6 pr-14 pl-36 pt-10 h-full">
     <h3 class="capitalize font-bold text-2xl">new invoice</h3>
     <div class="overflow-y-auto px-1 h-10/12 w-full flex flex-col gap-8">
       <section class="flex flex-col gap-6">
         <span class="text-purple-400 capitalize font-bold">bill to</span>
-        <div class="grid grid-cols-3 gap-6">
+        <div class="grid grid-cols-3 gap-5">
           <Input
             class="col-span-3"
             id="street-address"
@@ -50,7 +60,7 @@
       </section>
       <section class="flex flex-col gap-6">
         <span class="text-purple-400 capitalize font-bold">bill from</span>
-        <div class="grid grid-cols-3 gap-6">
+        <div class="grid grid-cols-3 gap-5">
           <Input
             class="col-span-3"
             id="client-name"
@@ -102,32 +112,42 @@
       <div class="flex flex-col gap-6">
         <span class="font-bold text-md text-neutral-200 text-2xl capitalize">item list</span>
         <div class="flex flex-col gap-6">
-          {#each items as item, index}
-            <div class="grid grid-cols-6 gap-4">
+          {#each items as item, index (item.id)}
+            <div class="grid grid-cols-10 gap-4">
               <Input
-                class="col-span-3"
-                id={item.itemName+index}
-                label="item name"
+                class="col-span-4"
+                id={item.itemName+item.id}
+                label={index === 0 ? "item name" : undefined}
                 placeholder="Graphic Design"
                 type="text"
               />
               <Input
-                id="item-quantity"
-                label="quantity"
+                id={item.quantity+item.id}
+                label={index === 0 ? "qty." : undefined}
                 placeholder="1"
                 type="number"
+                inputClass="px-2 text-center"
               />
               <Input
                 class="col-span-2"
-                id="item-price"
-                label="price"
+                id={item.price+item.id}
+                label={index === 0 ? "price" : undefined}
                 placeholder="1.99"
                 type="number"
               />
-              <div class="flex flex-col gap-6">
-                <div class="flex items-center justify-between gap-4">
-                  <span class="font-bold text-lg text-purple-200">156.00</span>
-                  <button>X</button>
+              <div class="col-span-3 flex flex-col gap-1">
+                {#if index === 0}
+                  <span class="capitalize text-purple-200">total</span>
+                {/if}
+                <div class="col-span-3 flex items-center justify-between gap-4 h-[3rem]">
+                  <span class="font-bold text-lg text-purple-200">{(item.quantity * item.price).toFixed(2)}</span>
+                  <button
+                    onclick={() => removeItem(item.id)}
+                    class="cursor-pointer"
+                    aria-label="remove item"
+                  >
+                    <span class="text-purple-200 text-xl icon-[solar--trash-bin-minimalistic-2-bold]"></span>
+                  </button>
                 </div>
               </div>
             </div>
