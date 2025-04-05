@@ -3,8 +3,8 @@
   import Button from "$lib/components/button.svelte";
   import type { ListItemInterface } from "$lib/interfaces";
   import { fade } from "svelte/transition";
+  import { updateInvoiceMutation } from "$lib/store/index.svelte";
 
-  let { discardModal } = $props();
 
   let items = $state<ListItemInterface[]>([]);
   let dropdownItems = [
@@ -31,7 +31,7 @@
   class="z-10 top-0 left-0 absolute w-screen h-screen bg-black/50">
   <section class="w-6/12 xl:w-5/12 rounded-r-2xl bg-white flex flex-col gap-8 p-6 pr-14 pl-36 pt-10 h-full">
     <h3 class="capitalize font-bold text-2xl">new invoice</h3>
-    <div class="overflow-y-auto px-1 h-10/12 w-full flex flex-col gap-8">
+    <div class="overflow-y-auto px-1 h-10/12 pb-4 w-full flex flex-col gap-8">
       <section class="flex flex-col gap-6">
         <span class="text-purple-400 capitalize font-bold">bill to</span>
         <div class="grid grid-cols-3 gap-5">
@@ -181,7 +181,7 @@
       </div>
     </div>
     <div class="flex items-center justify-between gap-4">
-      <Button color="tertiary" onclick={discardModal}>Discard</Button>
+      <Button color="tertiary" onclick={() => updateInvoiceMutation(false)}>Discard</Button>
       <div class="flex items-center gap-4">
         <Button class="text-purple-200 bg-neutral-300 hover:bg-neutral-300 font-bold">Save as Draft</Button>
         <Button>Save & Send</Button>

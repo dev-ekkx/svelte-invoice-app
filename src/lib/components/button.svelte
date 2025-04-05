@@ -42,7 +42,6 @@
 <button
   {...otherProps}
   class={buttonClass}
-
 >
   {#if isIcon}
     <img src={plusIcon} alt="plus icon" class="mr-2" decoding="async">

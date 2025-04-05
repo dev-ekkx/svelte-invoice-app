@@ -27,6 +27,11 @@
   font-optical-sizing: auto;
 }
 
+/*Style for header and invoices*/
+.base-width {
+  @apply w-7/12 mx-auto;
+}
+
 ::-webkit-scrollbar {
   display: none;
   scrollbar-width: none;
