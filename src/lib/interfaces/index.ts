@@ -9,7 +9,7 @@ export interface ButtonInterface extends HTMLButtonAttributes {
 }
 
 export interface InputInterface extends HTMLInputAttributes {
-	type: "text" | "email" | "password" | "number" | "tel";
+	type: "text" | "email" | "password" | "number" | "tel" | "date";
 	label?: string;
 	errorMessage?: string;
 	inputClass?: string;

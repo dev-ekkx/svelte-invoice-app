@@ -14,10 +14,6 @@
     });
   };
 
-  $effect(() => {
-    $inspect(items);
-  });
-
   const removeItem = (id: string) => {
     items = items.filter((item) => item.id !== id);
 
@@ -107,6 +103,23 @@
             placeholder="Graphics Design"
             type="text"
           />
+          <div class="col-span-3 flex items-center gap-4">
+            <Input
+              class="w-full"
+              id="issue-date"
+              label="issue date"
+              placeholder="06 April 2025"
+              type="date"
+
+            />
+            <Input
+              class="w-full"
+              id="payment-terms"
+              label="payment terms"
+              placeholder="Net 30 days"
+              type="text"
+            />
+          </div>
         </div>
       </section>
       <div class="flex flex-col gap-6">
