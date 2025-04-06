@@ -28,19 +28,19 @@ export interface ListItemInterface {
 }
 
 export interface BillFromField {
-	streetAddress: string;
-	city: string;
-	postCode: string;
-	country: string;
+	fromStreetAddress: string;
+	fromCity: string;
+	fromPostCode: string;
+	fromCountry: string;
 }
 
 export interface BillToField {
-	clientName: string;
-	clientEmail: string;
-	street: string;
-	city: string;
-	postCode: string;
-	country: string;
+	toClientName: string;
+	toClientEmail: string;
+	toStreet: string;
+	toCity: string;
+	toPostCode: string;
+	toCountry: string;
 }
 
 export interface InvoiceFromField extends InputInterface {

@@ -15,18 +15,18 @@
 
   let invoiceForm = $state({
     billFrom: {
-      streetAddress: "",
-      city: "",
-      postCode: "",
-      country: ""
+      fromStreetAddress: "",
+      fromCity: "",
+      fromPostCode: "",
+      fromCountry: ""
     },
     billTo: {
-      clientName: "",
-      clientEmail: "",
-      street: "",
-      city: "",
-      postCode: "",
-      country: ""
+      toClientName: "",
+      toClientEmail: "",
+      toStreet: "",
+      toCity: "",
+      toPostCode: "",
+      toCountry: ""
     },
     projectDescription: "",
     invoiceDate: "",
