@@ -53,8 +53,7 @@
 
   };
 
-  const formSubmit = async (e: SubmitEvent) => {
-    e.preventDefault();
+  const formSubmit = async () => {
 
     const response = await fetch("/invoices/create-invoice/create", {
       method: "POST",
@@ -73,7 +72,6 @@
   class="z-10 top-0 left-0 absolute w-screen h-screen bg-black/50">
   <form class="w-6/12 xl:w-5/12 rounded-r-2xl bg-white flex flex-col
     gap-8 p-6 pr-14 pl-36 pt-10 h-full"
-        onsubmit={formSubmit}
   >
     <h3 class="capitalize font-bold text-2xl">new invoice</h3>
     <div class="overflow-y-auto px-1 h-10/12 pb-4 w-full flex flex-col gap-8">
@@ -127,6 +125,7 @@
             />
           </div>
           <Input
+            bind:value={invoiceForm.projectDescription}
             class="col-span-3"
             id="project-description"
             label="project description"
@@ -143,6 +142,7 @@
               <Input
                 class="col-span-4"
                 id={item.itemName+item.id}
+                bind:value={item.itemName}
                 name={`items[${index}][name]`}
                 label={index === 0 ? "item name" : undefined}
                 placeholder="Graphic Design"
@@ -198,7 +198,7 @@
         <Button class="text-purple-200 bg-neutral-300 hover:bg-neutral-300 font-bold"
         >Save as Draft
         </Button>
-        <Button type="submit">Save & Send</Button>
+        <Button onclick={() => formSubmit()}>Save & Send</Button>
       </div>
     </div>
   </form>

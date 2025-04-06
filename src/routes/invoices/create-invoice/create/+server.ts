@@ -1,16 +1,33 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import { invoiceTable } from "$lib/server/db/schema";
+import type { InvoiceForm } from "$lib/interfaces";
+import { generateInvoiceNumber } from "$lib/utils/utils";
+import { invoiceTable, itemsTable } from "$lib/server/db/schema";
 import { db } from "$lib/server/db";
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
-		const formData = await request.json();
-		const invoice: typeof invoiceTable.$inferInsert = {
+		const { items, billTo, billFrom, ...rest }: InvoiceForm = await request.json();
+		const invoice = {
 			invoiceNumber: generateInvoiceNumber(),
-			...formData
+			...rest,
+			...billFrom,
+			...billTo
 		};
 
-		await db.insert(invoiceTable).values(invoice);
+		const insertedInvoice = await db
+			.insert(invoiceTable)
+			.values(invoice)
+			.returning({ id: invoiceTable.id });
+
+		const invoiceId = insertedInvoice[0].id;
+		const invoiceItems = items.map((item) => ({
+			invoiceId,
+			itemName: item.itemName,
+			quantity: item.quantity,
+			price: item.price
+		}));
+
+		await db.insert(itemsTable).values(invoiceItems);
 
 		return new Response(JSON.stringify({ message: "Invoice created successfully" }), {
 			status: 201
@@ -19,16 +36,4 @@ export const POST: RequestHandler = async ({ request }) => {
 		const error = e instanceof Error ? e.message : "An unknown error occurred";
 		return new Response(JSON.stringify({ error }), { status: 500 });
 	}
-};
-
-const generateInvoiceNumber = () => {
-	const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	const prefix = Array.from(
-		{ length: 2 },
-		() => letters[Math.floor(Math.random() * letters.length)]
-	).join("");
-	const randomDigits = Math.floor(Math.random() * 10000)
-		.toString()
-		.padStart(4, "0");
-	return `${prefix}${randomDigits}`;
 };

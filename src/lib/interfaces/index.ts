@@ -50,3 +50,12 @@ export interface InvoiceFromField extends InputInterface {
 export interface InvoiceToField extends InputInterface {
 	id: keyof BillToField;
 }
+
+export interface InvoiceForm {
+	billFrom: BillFromField;
+	billTo: BillToField;
+	items: ListItemInterface[];
+	projectDescription: string;
+	paymentTerms: string;
+	invoiceDate: string;
+}
