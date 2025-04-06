@@ -3,7 +3,7 @@
   import Invoice from "$lib/components/invoice.svelte";
   import InvoiceMutation from "$lib/components/invoice-mutation.svelte";
   import { fade } from "svelte/transition";
-  import { showInvoiceMutation } from "$lib/store/index.svelte.ts";
+  import { showInvoiceMutation } from "$lib/store/index.svelte";
 </script>
 
 <section class="base-width grid gap-4 overflow-y-auto">
@@ -22,7 +22,7 @@
 </section>
 
 {#if showInvoiceMutation()}
-  <div transition:fade={duration: 200}>
+  <div transition:fade={{duration: 200}}>
     <InvoiceMutation />
   </div>
 {/if}
