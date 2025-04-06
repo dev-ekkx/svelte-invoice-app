@@ -4,6 +4,7 @@
   import type { ListItemInterface } from "$lib/interfaces";
   import { fade, fly } from "svelte/transition";
   import { updateInvoiceMutation } from "$lib/store/index.svelte";
+  import { createInvoiceForm } from "$lib/constants";
 
 
   let items = $state<ListItemInterface[]>([]);
@@ -12,6 +13,34 @@
     { value: "net-60", label: "Net 60 days" },
     { value: "net-90", label: "Net 90 days" }
   ];
+
+  let invoiceForm = $state({
+    billFrom: {
+      streetAddress: "",
+      city: "",
+      postCode: "",
+      country: ""
+    },
+    billTo: {
+      clientName: "",
+      clientEmail: "",
+      street: "",
+      city: "",
+      postCode: "",
+      country: ""
+    },
+    projectDescription: "",
+    invoiceDate: "",
+    paymentTerms: "",
+    items: [
+      { id: crypto.randomUUID(), itemName: "", quantity: 1, price: 0 }
+    ]
+  });
+
+  $effect(() => {
+    $inspect(invoiceForm);
+  });
+
 
   const addItem = () => {
     items.push({
@@ -29,13 +58,6 @@
 
   const formSubmit = (e: SubmitEvent) => {
     e.preventDefault();
-
-    const form = e.target as HTMLFormElement;
-    const data = new FormData(form);
-
-    for (const [key, value] of data.entries()) {
-      console.log(`${key}: ${value}`);
-    }
   };
 </script>
 <div
@@ -47,94 +69,46 @@
     <h3 class="capitalize font-bold text-2xl">new invoice</h3>
     <div class="overflow-y-auto px-1 h-10/12 pb-4 w-full flex flex-col gap-8">
       <section class="flex flex-col gap-6">
-        <span class="text-purple-400 capitalize font-bold">bill to</span>
+        <span class="text-purple-400 capitalize font-bold">bill from</span>
         <div class="grid grid-cols-3 gap-5">
-          <Input
-            class="col-span-3"
-            id="street-address"
-            label="street address"
-            placeholder="1234 Main St"
-            type="text"
-          />
-          <Input
-            id="city"
-            label="city"
-            placeholder="Accra"
-            type="text"
-          />
-          <Input
-            id="post-code"
-            label="post code"
-            placeholder="E13 9PG"
-            type="text"
-          />
-          <Input
-            id="country"
-            label="country"
-            placeholder="Ghana"
-            type="text"
-          />
+          {#each createInvoiceForm.billFrom as field (field.id)}
+            <Input
+              class={field.class}
+              id={`from-${field.id}`}
+              label={field.label}
+              placeholder={field.placeholder}
+              type={field.type}
+              bind:value={invoiceForm.billFrom[field.id]}
+            />
+          {/each}
+
         </div>
       </section>
       <section class="flex flex-col gap-6">
-        <span class="text-purple-400 capitalize font-bold">bill from</span>
+        <span class="text-purple-400 capitalize font-bold">bill to</span>
         <div class="grid grid-cols-3 gap-5">
-          <Input
-            class="col-span-3"
-            id="client-name"
-            label="client's name"
-            placeholder="John Doe"
-            type="text"
-          />
-          <Input
-            class="col-span-3"
-            id="client-email"
-            label="client's email"
-            placeholder="john.doe@gmail.com"
-            type="email"
-          />
-          <Input
-            class="col-span-3"
-            id="street-address"
-            label="street address"
-            placeholder="56 Wayward St"
-            type="text"
-          />
-          <Input
-            id="from-city"
-            label="City"
-            placeholder="Accra"
-            type="text"
-          />
-          <Input
-            id="from-post-code"
-            label="Post Code"
-            placeholder="4DF4 4G"
-            type="text"
-          />
-          <Input
-            id="from-country"
-            label="country"
-            placeholder="Ghana"
-            type="text"
-          />
-          <Input
-            class="col-span-3"
-            id="project-description"
-            label="project description"
-            placeholder="Graphics Design"
-            type="text"
-          />
+          {#each createInvoiceForm.billTo as field (field.id)}
+            <Input
+              class={field.class}
+              id={`to-${field.id}`}
+              label={field.label}
+              placeholder={field.placeholder}
+              type={field.type}
+              bind:value={invoiceForm.billTo[field.id]}
+            />
+          {/each}
           <div class="col-span-3 flex items-center gap-4">
             <Input
+              bind:value={invoiceForm.invoiceDate}
               class="w-full"
-              id="issue-date"
-              label="issue date"
+              id="invoiceDate"
+              label="invoice date"
               placeholder="06 April 2025"
               type="date"
 
             />
             <Input
+              bind:value={invoiceForm.paymentTerms}
               class="w-full"
               id="payment-terms"
               items={dropdownItems}
@@ -143,6 +117,13 @@
               type="select"
             />
           </div>
+          <Input
+            class="col-span-3"
+            id="project-description"
+            label="project description"
+            placeholder="Graphics Design"
+            type="text"
+          />
         </div>
       </section>
       <div class="flex flex-col gap-6">

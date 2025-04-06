@@ -26,3 +26,27 @@ export interface ListItemInterface {
 	quantity: number;
 	price: number;
 }
+
+export interface BillFromField {
+	streetAddress: string;
+	city: string;
+	postCode: string;
+	country: string;
+}
+
+export interface BillToField {
+	clientName: string;
+	clientEmail: string;
+	street: string;
+	city: string;
+	postCode: string;
+	country: string;
+}
+
+export interface InvoiceFromField extends InputInterface {
+	id: keyof BillFromField;
+}
+
+export interface InvoiceToField extends InputInterface {
+	id: keyof BillToField;
+}
