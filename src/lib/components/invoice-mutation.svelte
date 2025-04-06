@@ -7,7 +7,6 @@
   import { createInvoiceForm } from "$lib/constants";
 
 
-  let items = $state<ListItemInterface[]>([]);
   let dropdownItems = [
     { value: "net-30", label: "Net 30 days", selected: true },
     { value: "net-60", label: "Net 60 days" },
@@ -32,9 +31,7 @@
     projectDescription: "",
     invoiceDate: "",
     paymentTerms: "",
-    items: [
-      { id: crypto.randomUUID(), itemName: "", quantity: 1, price: 0 }
-    ]
+    items: [] as ListItemInterface[]
   });
 
   $effect(() => {
@@ -43,7 +40,7 @@
 
 
   const addItem = () => {
-    items.push({
+    invoiceForm.items.push({
       id: crypto.randomUUID(),
       itemName: "",
       quantity: 0,
@@ -52,12 +49,24 @@
   };
 
   const removeItem = (id: string) => {
-    items = items.filter((item) => item.id !== id);
+    invoiceForm.items = invoiceForm.items.filter((item) => item.id !== id);
 
   };
 
-  const formSubmit = (e: SubmitEvent) => {
+  const formSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
+
+    const response = await fetch("/invoices/create-invoice/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(invoiceForm)
+    });
+
+    const result = await response.json();
+    console.log(result);
+
   };
 </script>
 <div
@@ -129,7 +138,7 @@
       <div class="flex flex-col gap-6">
         <span class="font-bold text-md text-neutral-200 text-2xl capitalize">item list</span>
         <div class="flex flex-col gap-6">
-          {#each items as item, index (item.id)}
+          {#each invoiceForm.items as item, index (item.id)}
             <div class="grid grid-cols-10 gap-4" in:fly={{ y: 200 }} out:fade>
               <Input
                 class="col-span-4"
