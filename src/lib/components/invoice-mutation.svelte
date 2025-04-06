@@ -5,6 +5,7 @@
   import { fade, fly } from "svelte/transition";
   import { updateInvoiceMutation } from "$lib/store/index.svelte";
   import { createInvoiceForm } from "$lib/constants";
+  import { goto } from "$app/navigation";
 
 
   let dropdownItems = [
@@ -29,13 +30,9 @@
       toCountry: ""
     },
     projectDescription: "",
-    invoiceDate: "",
+    invoiceDate: new Date().toISOString().split("T")[0],
     paymentTerms: "",
     items: [] as ListItemInterface[]
-  });
-
-  $effect(() => {
-    $inspect(invoiceForm);
   });
 
 
@@ -63,8 +60,14 @@
       body: JSON.stringify(invoiceForm)
     });
 
-    const result = await response.json();
-    console.log(result);
+    const result: { message: string, error: string } = await response.json();
+    if (result.message) {
+      alert(result.message);
+      updateInvoiceMutation(false);
+      await goto("/");
+    } else {
+      alert(result.error);
+    }
 
   };
 </script>
