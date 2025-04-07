@@ -2,10 +2,11 @@
   import "../app.css";
   import logo from "$lib/assets/logo.svg";
   import Button from "$lib/components/button.svelte";
-  import { updateInvoiceMutation } from "$lib/store/index.svelte";
+  import { totalInvoices, updateInvoiceMutation } from "$lib/store/index.svelte";
 
 
   let { children } = $props();
+
 
   const createInvoice = () => {
     updateInvoiceMutation(true);
@@ -24,7 +25,7 @@
     <header class="base-width h-14 flex items-center justify-between">
       <div class="flex flex-col gap-1.5">
         <h2 class="capitalize text-3xl font-bold text-dark">invoices</h2>
-        <span class="text-neutral-200 font-medium">There are 7 total invoices</span>
+        <span class="text-neutral-200 font-medium">There are {totalInvoices()} total invoices</span>
       </div>
       <div class="flex items-center gap-4">
         <Button

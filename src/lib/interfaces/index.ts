@@ -62,6 +62,7 @@ export interface InvoiceForm {
 
 export interface Invoice {
 	id: number;
+	status: "pending" | "draft" | "paid";
 	invoiceNumber: string;
 	fromStreetAddress: string;
 	fromCity: string;
@@ -76,4 +77,5 @@ export interface Invoice {
 	projectDescription: string;
 	invoiceDate: string;
 	paymentTerms: string;
+	amount: number;
 }

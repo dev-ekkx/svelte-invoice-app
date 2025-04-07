@@ -2,6 +2,7 @@ import { doublePrecision, integer, pgTable, serial, text } from "drizzle-orm/pg-
 
 export const invoiceTable = pgTable("invoices", {
 	id: serial("id").primaryKey(),
+	status: text("status"),
 	invoiceNumber: text("invoiceNumber"),
 	fromStreetAddress: text("fromStreetAddress"),
 	fromCity: text("fromCity"),
@@ -15,7 +16,8 @@ export const invoiceTable = pgTable("invoices", {
 	toCountry: text("toCountry"),
 	projectDescription: text("projectDescription"),
 	invoiceDate: text("invoiceDate"),
-	paymentTerms: text("paymentTerms")
+	paymentTerms: text("paymentTerms"),
+	amount: doublePrecision()
 });
 
 export const itemsTable = pgTable("items", {

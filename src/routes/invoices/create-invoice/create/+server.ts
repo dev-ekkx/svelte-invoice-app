@@ -9,7 +9,10 @@ export const POST: RequestHandler = async ({ request }) => {
 		const { items, billTo, billFrom, ...rest }: InvoiceForm = await request.json();
 		const invoice = {
 			invoiceNumber: generateInvoiceNumber(),
+			status: "pending",
 			...rest,
+			invoiceDate: new Date(rest.invoiceDate).toISOString(),
+			amount: items.reduce((acc, item) => acc + item.quantity * item.price, 0),
 			...billFrom,
 			...billTo
 		};
