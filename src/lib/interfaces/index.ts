@@ -59,3 +59,21 @@ export interface InvoiceForm {
 	paymentTerms: string;
 	invoiceDate: string;
 }
+
+export interface Invoice {
+	id: number;
+	invoiceNumber: string;
+	fromStreetAddress: string;
+	fromCity: string;
+	fromPostCode: string;
+	fromCountry: string;
+	toClientName: string;
+	toClientEmail: string;
+	toStreet: string;
+	toCity: string;
+	toPostCode: string;
+	toCountry: string;
+	projectDescription: string;
+	invoiceDate: string;
+	paymentTerms: string;
+}
