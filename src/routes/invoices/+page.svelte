@@ -1,12 +1,13 @@
-<script>
+<script lang="ts">
   import emptyState from "$lib/assets/empty.svg";
   import Invoice from "$lib/components/invoice.svelte";
   import InvoiceMutation from "$lib/components/invoice-mutation.svelte";
   import { fade } from "svelte/transition";
   import { setInvoiceTotal, showInvoiceMutation } from "$lib/store/index.svelte";
+  import type { InvoiceInterface } from "$lib/interfaces/index.js";
 
   let { data } = $props();
-  const invoices = data.invoices;
+  const invoices = data.invoices as InvoiceInterface[];
   setInvoiceTotal(invoices.length ?? 0);
 
 </script>

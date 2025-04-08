@@ -8,12 +8,12 @@ export function cn(...inputs: ClassValue[]) {
 export const generateInvoiceNumber = () => {
 	const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	const prefix = Array.from(
-		{ length: 4 },
+		{ length: 2 },
 		() => letters[Math.floor(Math.random() * letters.length)]
 	).join("");
 	const randomDigits = Math.floor(Math.random() * 10000)
 		.toString()
-		.padStart(6, "0");
+		.padStart(4, "0");
 	return `${prefix}${randomDigits}`;
 };
 
@@ -28,4 +28,11 @@ export const formatDueDate = (dateString: string): string => {
 	};
 
 	return new Intl.DateTimeFormat("en-GB", options).format(date);
+};
+
+export const formatAmount = (amount: number): string => {
+	return new Intl.NumberFormat("en-GB", {
+		style: "currency",
+		currency: "GHS"
+	}).format(amount);
 };

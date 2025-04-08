@@ -1,10 +1,10 @@
 <script lang="ts">
   import arrowRight from "$lib/assets/arrow-right.svg";
   import StatusChip from "$lib/components/status-chip.svelte";
-  import type { Invoice } from "$lib/interfaces";
-  import { formatDueDate } from "$lib/utils/utils";
+  import type { InvoiceInterface } from "$lib/interfaces";
+  import { formatAmount, formatDueDate } from "$lib/utils/utils";
 
-  let invoice: Invoice = $props();
+  let invoice: InvoiceInterface = $props();
 </script>
 
 <section class="bg-white w-full h-[4.5rem] rounded-lg flex items-center justify-between px-8">
@@ -14,7 +14,7 @@
   </span>
   <span class="text-purple-300 font-medium">Due {formatDueDate(invoice.invoiceDate)}</span>
   <span class="text-purple-300 font-medium">{invoice.toClientName}</span>
-  <span class="text-dark font-bold">£ {invoice.amount}</span>
+  <span class="text-dark font-bold">{formatAmount(invoice.amount)}</span>
   <div class="flex items-center gap-6">
     <StatusChip status="paid" />
     <button aria-label="arrow-right" class="cursor-pointer p-1 group">

@@ -60,7 +60,7 @@ export interface InvoiceForm {
 	invoiceDate: string;
 }
 
-export interface Invoice {
+export interface InvoiceInterface {
 	id: number;
 	status: "pending" | "draft" | "paid";
 	invoiceNumber: string;
