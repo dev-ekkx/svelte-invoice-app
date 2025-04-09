@@ -1,7 +1,7 @@
 <script lang="ts">
   import Input from "$lib/components/input.svelte";
   import Button from "$lib/components/button.svelte";
-  import type { ListItemInterface } from "$lib/interfaces";
+  import type { ItemInterface } from "$lib/interfaces";
   import { fade, fly } from "svelte/transition";
   import { updateInvoiceMutation } from "$lib/store/index.svelte";
   import { createInvoiceForm } from "$lib/constants";
@@ -32,7 +32,7 @@
     projectDescription: "",
     invoiceDate: new Date().toISOString().split("T")[0],
     paymentTerms: "",
-    items: [] as ListItemInterface[]
+    items: [] as ItemInterface[]
   });
 
 

@@ -20,7 +20,7 @@ export interface StatusChipInterface {
 	status: "paid" | "pending" | "draft";
 }
 
-export interface ListItemInterface {
+export interface ItemInterface {
 	id: string;
 	itemName: string;
 	quantity: number;
@@ -54,7 +54,7 @@ export interface InvoiceToField extends InputInterface {
 export interface InvoiceForm {
 	billFrom: BillFromField;
 	billTo: BillToField;
-	items: ListItemInterface[];
+	items: ItemInterface[];
 	projectDescription: string;
 	paymentTerms: string;
 	invoiceDate: string;
@@ -78,4 +78,8 @@ export interface InvoiceInterface {
 	invoiceDate: string;
 	paymentTerms: string;
 	amount: number;
+}
+
+export interface InvoiceDetails extends InvoiceInterface {
+	items: ItemInterface[];
 }
