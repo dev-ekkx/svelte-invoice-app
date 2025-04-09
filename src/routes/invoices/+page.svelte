@@ -3,15 +3,32 @@
   import Invoice from "$lib/components/invoice.svelte";
   import InvoiceMutation from "$lib/components/invoice-mutation.svelte";
   import { fade } from "svelte/transition";
-  import { setInvoiceTotal, showInvoiceMutation } from "$lib/store/index.svelte";
+  import { setInvoiceTotal, showInvoiceMutation, totalInvoices, updateInvoiceMutation } from "$lib/store/index.svelte";
   import type { InvoiceInterface } from "$lib/interfaces/index.js";
+  import Button from "$lib/components/button.svelte";
 
   let { data } = $props();
   const invoices = data.invoices as InvoiceInterface[];
   setInvoiceTotal(invoices.length ?? 0);
 
+  const createInvoice = () => {
+    updateInvoiceMutation(true);
+  };
 </script>
-
+<header class="base-width h-14 flex items-center justify-between">
+  <div class="flex flex-col gap-1.5">
+    <h2 class="capitalize text-3xl font-bold text-dark">invoices</h2>
+    <span class="text-neutral-200 font-medium">There are {totalInvoices()} total invoices</span>
+  </div>
+  <div class="flex items-center gap-4">
+    <Button
+      isIcon
+      onclick={createInvoice}
+    >
+      New Invoice
+    </Button>
+  </div>
+</header>
 <section class="base-width grid gap-4 overflow-y-auto">
   {#each invoices as invoice(invoice.invoiceNumber)}
     <Invoice {...invoice} />
