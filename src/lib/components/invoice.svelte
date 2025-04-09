@@ -19,7 +19,7 @@
   <div class="flex items-center gap-6">
     <StatusChip status="paid" />
     <button aria-label="arrow-right" class="cursor-pointer p-1 group"
-            onclick={() => goto(`/invoices/${invoice.invoiceNumber}}`)}>
+            onclick={() => goto(`/invoices/${invoice.invoiceNumber}`)}>
       <img alt="arrow-right" class="transition-all duration-200 ease-linear group-hover:scale-x-150" src={arrowRight}>
     </button>
   </div>
