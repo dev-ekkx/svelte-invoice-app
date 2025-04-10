@@ -30,7 +30,7 @@
       toCountry: ""
     },
     projectDescription: "",
-    invoiceDueDate: new Date().toISOString().split("T")[0],
+    invoiceDate: new Date().toISOString().split("T")[0],
     paymentTerms: "",
     items: [] as ItemInterface[]
   });
@@ -109,14 +109,14 @@
           {/each}
           <div class="col-span-3 flex items-center gap-4">
             <Input
-              bind:value={invoiceForm.invoiceDueDate}
+              bind:value={invoiceForm.invoiceDate}
               class="w-full"
               id="invoiceDate"
               label="invoice date"
               placeholder="06 April 2025"
               type="date"
 
-            />{Button}
+            />
             <Input
               bind:value={invoiceForm.paymentTerms}
               class="w-full"
