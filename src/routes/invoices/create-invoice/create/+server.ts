@@ -11,7 +11,8 @@ export const POST: RequestHandler = async ({ request }) => {
 			invoiceNumber: generateInvoiceNumber(),
 			status: "pending",
 			...rest,
-			invoiceDate: new Date(rest.invoiceDate).toISOString(),
+			invoiceDate: new Date().toISOString(),
+			invoiceDueDate: new Date(rest.invoiceDueDate).toISOString(),
 			amount: items.reduce((acc, item) => acc + item.quantity * item.price, 0),
 			...billFrom,
 			...billTo

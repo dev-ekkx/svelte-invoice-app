@@ -13,7 +13,7 @@
     <span class="text-purple-300">#</span>
     <span class="uppercase text-dark font-bold">{invoice.invoiceNumber}</span>
   </span>
-  <span class="text-purple-200">Due {formatDueDate(invoice.invoiceDate)}</span>
+  <span class="text-purple-200">Due {formatDueDate(invoice.invoiceDueDate)}</span>
   <span class="text-purple-200">{invoice.toClientName}</span>
   <span class="text-dark font-bold">{formatAmount(invoice.amount)}</span>
   <div class="flex items-center gap-6">

@@ -16,6 +16,7 @@ export const invoiceTable = pgTable("invoices", {
 	toCountry: text("toCountry").notNull(),
 	projectDescription: text("projectDescription").notNull(),
 	invoiceDate: text("invoiceDate").notNull(),
+	invoiceDueDate: text("invoiceDueDate").notNull(),
 	paymentTerms: text("paymentTerms").notNull(),
 	amount: doublePrecision().notNull()
 });

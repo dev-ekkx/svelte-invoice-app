@@ -57,7 +57,7 @@ export interface InvoiceForm {
 	items: ItemInterface[];
 	projectDescription: string;
 	paymentTerms: string;
-	invoiceDate: string;
+	invoiceDueDate: string;
 }
 
 export interface InvoiceInterface {
@@ -75,11 +75,12 @@ export interface InvoiceInterface {
 	toPostCode: string;
 	toCountry: string;
 	projectDescription: string;
-	invoiceDate: string;
+	invoiceDueDate: string;
 	paymentTerms: string;
 	amount: number;
 }
 
 export interface InvoiceDetails extends InvoiceInterface {
 	items: ItemInterface[];
+	invoiceDate: string;
 }
