@@ -68,7 +68,7 @@
         </div>
       {/each}
     </section>
-    <section class="grid grid-cols-3 gap-6">
+    <section class="flex">
       <div class="flex flex-col gap-2">
         <span class="text-purple-200 capitalize">payment due</span>
         <span
