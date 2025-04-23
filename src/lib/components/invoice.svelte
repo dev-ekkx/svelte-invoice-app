@@ -17,7 +17,7 @@
 	<span class="text-purple-200">{invoice.toClientName}</span>
 	<span class="text-dark font-bold">{formatAmount(invoice.amount)}</span>
 	<div class="flex items-center gap-6">
-		<StatusChip status="paid" />
+		<StatusChip status={invoice.status} />
 		<button
 			aria-label="arrow-right"
 			class="group cursor-pointer p-1"
