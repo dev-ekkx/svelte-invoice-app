@@ -1,7 +1,7 @@
-import type { PageServerLoad } from "../../../../.svelte-kit/types/src/routes/invoices/[id]/$types";
 import { db } from "$lib/server/db";
 import { invoiceTable as invoices, itemsTable as items } from "$lib/server/db/schema";
 import { eq } from "drizzle-orm";
+import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params }) => {
 	try {

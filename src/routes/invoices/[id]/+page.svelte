@@ -37,6 +37,31 @@
 			value: invoice.toClientEmail
 		}
 	];
+
+  let isMarkAsPaidModalOpen = $state(false);
+
+  const markAsPaid = async() => {
+    try {
+
+    const res = await fetch(``, {
+      method: "PATCH",
+    });
+
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message);
+    }
+
+    const result = await res.json();
+    console.log(result);
+      console.log(result.message);
+    }catch (e) {
+      const error = e as Error;
+      console.error(error);
+      alert(error.message)
+    }
+    isMarkAsPaidModalOpen = false;
+  }
 </script>
 
 <div class="base-width">
@@ -58,7 +83,7 @@
 		<div class="flex items-center gap-4">
 			<Button class="px-6 text-purple-200" color="tertiary">Edit</Button>
 			<Button class="px-6 text-white" color="danger">Delete</Button>
-			<Button class="px-6">Mark as Paid</Button>
+			<Button class="px-6" onclick={() => isMarkAsPaidModalOpen = true}>Mark as Paid</Button>
 		</div>
 	</section>
 
@@ -130,12 +155,24 @@
 	</section>
 </div>
 
+<!--<Modal-->
+<!--  title="confirm deletion"-->
+<!--description="Are you sure you want to delete invoice #434FF43? This action cannot be undone."-->
+<!--&gt;-->
+<!--  <div class="flex items-center justify-end gap-4">-->
+<!--    <Button color="tertiary">Cancel</Button>-->
+<!--    <Button color="danger" class="text-white">Confirm</Button>-->
+<!--  </div>-->
+<!--</Modal>-->
+
+{#if isMarkAsPaidModalOpen}
 <Modal
-  title="confirm deletion"
-description="Are you sure you want to delete invoice #434FF43? This action cannot be undone."
+  title="Mark as paid"
+description="Are you sure you want to mark this invoice #434FF43 as paid? This action cannot be undone."
 >
   <div class="flex items-center justify-end gap-4">
-    <Button color="tertiary">Cancel</Button>
-    <Button color="danger" class="text-white">Confirm</Button>
+    <Button color="tertiary" onclick={() => isMarkAsPaidModalOpen = false}>Cancel</Button>
+    <Button onclick={markAsPaid}>Confirm</Button>
   </div>
 </Modal>
+  {/if}
