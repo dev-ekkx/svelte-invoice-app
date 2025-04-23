@@ -6,10 +6,12 @@
   import { cn, formatAmount, formatDueDate } from "$lib/utils/utils";
   import { itemHeaders, ItemsHeaderEnum } from "$lib/constants";
   import { goto } from "$app/navigation";
+  import Modal from "$lib/components/modal.svelte";
 
   let { data }: PageProps = $props();
 	const invoice = data.invoice as unknown as InvoiceDetails;
 	const invoiceItems = invoice.items ?? [];
+
 
 	const address = [
 		invoice.fromStreetAddress,
@@ -127,3 +129,13 @@
 		</section>
 	</section>
 </div>
+
+<Modal
+  title="confirm deletion"
+description="Are you sure you want to delete invoice #434FF43? This action cannot be undone."
+>
+  <div class="flex items-center justify-end gap-4">
+    <Button color="tertiary">Cancel</Button>
+    <Button color="danger" class="text-white">Confirm</Button>
+  </div>
+</Modal>
