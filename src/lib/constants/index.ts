@@ -70,3 +70,12 @@ export const createInvoiceForm = {
 		}
 	] as InvoiceToField[]
 };
+
+export enum ItemsHeaderEnum {
+	NAME = "Item Name",
+	QUANTITY = "QTY.",
+	PRICE = "Price",
+	TOTAL = "Total"
+}
+
+export const itemHeaders = ["Item Name", "QTY.", "Price", "Total"];

@@ -1,6 +1,6 @@
-import type { PageServerLoad } from "../../../.svelte-kit/types/src/routes/invoices/$types";
 import { db } from "$lib/server/db";
 import { invoiceTable } from "$lib/server/db/schema";
+import type { PageServerLoad } from "../../../.svelte-kit/types/src/routes/invoices/[id]/$types";
 
 export const load: PageServerLoad = async () => {
 	try {
