@@ -1,14 +1,15 @@
 <script lang="ts">
-	import type { PageProps } from "./$types";
-	import type { InvoiceDetails } from "$lib/interfaces";
-	import StatusChip from "$lib/components/status-chip.svelte";
-	import Button from "$lib/components/button.svelte";
-	import { cn, formatAmount, formatDueDate } from "$lib/utils/utils";
-	import { itemHeaders, ItemsHeaderEnum } from "$lib/constants";
+  import type { PageProps } from "./$types";
+  import type { InvoiceDetails } from "$lib/interfaces";
+  import StatusChip from "$lib/components/status-chip.svelte";
+  import Button from "$lib/components/button.svelte";
+  import { cn, formatAmount, formatDueDate } from "$lib/utils/utils";
+  import { itemHeaders, ItemsHeaderEnum } from "$lib/constants";
+  import { goto } from "$app/navigation";
 
-	let { data }: PageProps = $props();
+  let { data }: PageProps = $props();
 	const invoice = data.invoice as unknown as InvoiceDetails;
-	const invoiceItems = invoice.items;
+	const invoiceItems = invoice.items ?? [];
 
 	const address = [
 		invoice.fromStreetAddress,
@@ -36,7 +37,14 @@
 	];
 </script>
 
-<button>Go back</button>
+<div class="base-width">
+	<button
+    onclick={() => goto("/invoices")}
+    class="flex items-center gap-4 cursor-pointer">
+    <span class="icon-[stash--chevron-left-solid] text-2xl text-purple-300"></span>
+    <span> Go back </span>
+	</button>
+</div>
 <div class="base-width flex flex-col gap-6">
 	<section
 		class="flex h-[6rem] items-center justify-between gap-4 rounded-md bg-white px-6 shadow-lg"
