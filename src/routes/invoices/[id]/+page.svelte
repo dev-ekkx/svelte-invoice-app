@@ -1,17 +1,17 @@
 <script lang="ts">
-	import type { PageProps } from "./$types";
-	import type { InvoiceDetails } from "$lib/interfaces";
-	import StatusChip from "$lib/components/status-chip.svelte";
-	import Button from "$lib/components/button.svelte";
-	import { cn, formatAmount, formatDueDate } from "$lib/utils/utils";
-	import { itemHeaders, ItemsHeaderEnum } from "$lib/constants";
-	import { goto } from "$app/navigation";
-	import Modal from "$lib/components/modal.svelte";
+  import type { PageProps } from "./$types";
+  import type { InvoiceDetails } from "$lib/interfaces";
+  import StatusChip from "$lib/components/status-chip.svelte";
+  import Button from "$lib/components/button.svelte";
+  import { cn, formatAmount, formatDueDate } from "$lib/utils/utils";
+  import { itemHeaders, ItemsHeaderEnum } from "$lib/constants";
+  import { goto } from "$app/navigation";
+  import Modal from "$lib/components/modal.svelte";
 
-	let { data }: PageProps = $props();
+  let { data }: PageProps = $props();
 	const invoice = data.invoice as unknown as InvoiceDetails;
 	const invoiceItems = invoice.items ?? [];
-
+const totalAmount = invoiceItems.reduce((acc, item) => acc + item.quantity * item.price, 0)
 	const address = [
 		invoice.fromStreetAddress,
 		invoice.fromCity,
@@ -38,6 +38,12 @@
 	];
 
 	let isMarkAsPaidModalOpen = $state(false);
+  let isDeleteInvoiceModalOpen = $state(false);
+
+  $effect(() => {
+    console.log(isDeleteInvoiceModalOpen);
+
+  })
 
 	const markAsPaid = async () => {
 		try {
@@ -51,15 +57,35 @@
 			}
 
 			const result = await res.json();
-			console.log(result);
-			console.log(result.message);
+			alert(result.message);
+location.reload()
 		} catch (e) {
 			const error = e as Error;
-			console.error(error);
 			alert(error.message);
 		}
 		isMarkAsPaidModalOpen = false;
 	};
+
+  const deleteInvoice = async () => {
+    try {
+      const res = await fetch(``, {
+        method: "DELETE"
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message);
+      }
+
+      const result = await res.json();
+      alert(result.message);
+      location.reload();
+    } catch (e) {
+      const error = e as Error;
+      alert(error.message);
+    }
+    isDeleteInvoiceModalOpen = false;
+  };
 </script>
 
 <div class="base-width">
@@ -78,7 +104,12 @@
 		</div>
 		<div class="flex items-center gap-4">
 			<Button aria-label="edit invoice" class="px-6 text-purple-200" color="tertiary">Edit</Button>
-			<Button aria-label="delete invoice" class="px-6 text-white" color="danger">Delete</Button>
+			<Button
+        aria-label="delete invoice"
+        class="px-6 text-white"
+        color="danger"
+        onclick={() => isDeleteInvoiceModalOpen = true}
+      >Delete</Button>
 			<Button
 				aria-label="mark as paid"
 				disabled={invoice.status === "paid"}
@@ -125,7 +156,7 @@
 			</div>
 			<div class="w-full flex-1"></div>
 		</section>
-		<section class="flex flex-col rounded-md">
+		<section class="flex flex-col rounded-md overflow-clip">
 			<table class="rounded-lg bg-neutral-50 p-6">
 				<caption class="sr-only">Items table</caption>
 				<thead>
@@ -151,25 +182,37 @@
 					{/each}
 				</tbody>
 			</table>
-			<div class="bg-neutral-300"></div>
+			<div class="bg-neutral-300 text-white p-6 flex items-center gap-4 justify-between">
+        <span>Amount Due</span>
+        <span>{formatAmount(totalAmount)}</span>
+      </div>
 		</section>
 	</section>
 </div>
 
-<!--<Modal-->
-<!--  title="confirm deletion"-->
-<!--description="Are you sure you want to delete invoice #434FF43? This action cannot be undone."-->
-<!--&gt;-->
-<!--  <div class="flex items-center justify-end gap-4">-->
-<!--    <Button color="tertiary">Cancel</Button>-->
-<!--    <Button color="danger" class="text-white">Confirm</Button>-->
-<!--  </div>-->
-<!--</Modal>-->
+{#if isDeleteInvoiceModalOpen}
+<Modal
+  title="confirm deletion"
+description={"Are you sure you want to delete invoice " + "#"+invoice.invoiceNumber+"?" + " This action cannot be undone."}
+>
+  <div class="flex items-center justify-end gap-4">
+    <Button
+      color="tertiary"
+      onclick={() => (isDeleteInvoiceModalOpen = false)}
+    >Cancel</Button>
+    <Button
+      color="danger"
+      class="text-white"
+      onclick={deleteInvoice}
+    >Confirm</Button>
+  </div>
+</Modal>
+  {/if}
 
 {#if isMarkAsPaidModalOpen}
 	<Modal
 		title="Mark as paid"
-		description="Are you sure you want to mark this invoice #434FF43 as paid? This action cannot be undone."
+		description={"Are you sure you want to mark this invoice " + "#"+invoice.invoiceNumber + " as paid? This action cannot be undone."}
 	>
 		<div class="flex items-center justify-end gap-4">
 			<Button color="tertiary" onclick={() => (isMarkAsPaidModalOpen = false)}>Cancel</Button>

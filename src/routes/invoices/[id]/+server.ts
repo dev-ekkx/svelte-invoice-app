@@ -38,3 +38,31 @@ export const PATCH: RequestHandler = async ({ params }) => {
 		});
 	}
 };
+
+export const DELETE: RequestHandler = async ({ params }) => {
+	try {
+		const invoiceNumber = params.id ?? "";
+		console.log(invoiceNumber);
+
+		const invoice = await db
+			.select()
+			.from(invoiceTable)
+			.where(eq(invoiceTable.invoiceNumber, invoiceNumber))
+			.then((res) => res[0]);
+
+		if (!invoice) {
+			throw error(404, `Invoice #${invoiceNumber} not found`);
+		}
+
+		await db.delete(invoiceTable).where(eq(invoiceTable.invoiceNumber, invoiceNumber));
+
+		return json({ message: `Invoice #${invoiceNumber} deleted`, success: true }, { status: 200 });
+	} catch (err) {
+		console.log(err);
+
+		return new Response(JSON.stringify({ message: params, success: false }), {
+			status: 200,
+			headers: { "Content-Type": "application/json" }
+		});
+	}
+};
