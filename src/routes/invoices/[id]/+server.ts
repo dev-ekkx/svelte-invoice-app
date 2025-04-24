@@ -1,12 +1,44 @@
-import { error, json, type RequestHandler } from "@sveltejs/kit";
 import { db } from "$lib/server/db";
-import { invoiceTable } from "$lib/server/db/schema";
+import { invoiceTable, itemsTable } from "$lib/server/db/schema";
+import { error, json, type RequestHandler } from "@sveltejs/kit";
 import { eq } from "drizzle-orm";
+
+export const GET: RequestHandler = async ({ params }) => {
+	try {
+		const invoiceNumber = params.id ?? "";
+		const result = await db
+			.select()
+			.from(invoiceTable)
+			.leftJoin(itemsTable, eq(invoiceTable.id, itemsTable.invoiceId))
+			.where(eq(invoiceTable.invoiceNumber, invoiceNumber));
+
+		if (!result.length) {
+			return new Response(JSON.stringify({ error: "Invoice not found" }), { status: 404 });
+		}
+
+		const { invoices: invoiceData } = result[0];
+		const allItems = result.filter((row) => row.items != null).map((row) => row.items);
+
+		const invoice = {
+			...invoiceData,
+			items: allItems
+		};
+
+		return new Response(JSON.stringify({ invoice }), {
+			status: 200,
+			headers: { "Content-Type": "application/json" }
+		});
+	} catch {
+		return new Response(JSON.stringify({ error: "Internal server error" }), {
+			status: 500,
+			headers: { "Content-Type": "application/json" }
+		});
+	}
+};
 
 export const PATCH: RequestHandler = async ({ params }) => {
 	try {
 		const invoiceNumber = params.id ?? "";
-		console.log(invoiceNumber);
 
 		const invoice = await db
 			.select()
@@ -42,8 +74,6 @@ export const PATCH: RequestHandler = async ({ params }) => {
 export const DELETE: RequestHandler = async ({ params }) => {
 	try {
 		const invoiceNumber = params.id ?? "";
-		console.log(invoiceNumber);
-
 		const invoice = await db
 			.select()
 			.from(invoiceTable)

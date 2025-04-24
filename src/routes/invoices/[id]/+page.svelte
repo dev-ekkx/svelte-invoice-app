@@ -1,15 +1,14 @@
 <script lang="ts">
-	import type { PageProps } from "./$types";
-	import type { InvoiceDetails } from "$lib/interfaces";
-	import StatusChip from "$lib/components/status-chip.svelte";
+	import { goto, invalidate } from "$app/navigation";
 	import Button from "$lib/components/button.svelte";
-	import { cn, formatAmount, formatDueDate } from "$lib/utils/utils";
-	import { itemHeaders, ItemsHeaderEnum } from "$lib/constants";
-	import { goto, invalidate, invalidateAll } from "$app/navigation";
 	import Modal from "$lib/components/modal.svelte";
+	import StatusChip from "$lib/components/status-chip.svelte";
+	import { itemHeaders, ItemsHeaderEnum } from "$lib/constants";
+	import type { InvoiceDetails } from "$lib/interfaces";
+	import { cn, formatAmount, formatDueDate } from "$lib/utils/utils";
+	import type { PageProps } from "./$types";
 
 	let { data }: PageProps = $props();
-	console.log(data);
 
 	const invoice = data.invoice as unknown as InvoiceDetails;
 	const invoiceItems = invoice.items ?? [];
@@ -44,7 +43,7 @@
 
 	const markAsPaid = async () => {
 		try {
-			const res = await fetch(``, {
+			const res = await fetch(`/invoices/${invoice.invoiceNumber}`, {
 				method: "PATCH"
 			});
 
@@ -53,15 +52,15 @@
 				throw new Error(error.message);
 			}
 
+			invalidate((url) => url.pathname.includes("/invoices"));
 			const result = await res.json();
 			console.log(result.message);
-			await invalidateAll();
-			await invalidate("app:invoice");
+			isMarkAsPaidModalOpen = false;
 		} catch (e) {
-			const error = e as Error;
+			const error = e instanceof Error ? e : new Error("An unexpected error occurred");
+			alert(error.message);
 			alert(error.message);
 		}
-		isMarkAsPaidModalOpen = false;
 	};
 
 	const deleteInvoice = async () => {
@@ -77,15 +76,11 @@
 
 			const result = await res.json();
 			console.log(result.message);
-			await goto("/invoices");
-			await invalidate("app:random");
-
-			await invalidateAll();
+			isDeleteInvoiceModalOpen = false;
 		} catch (e) {
-			const error = e as Error;
+			const error = e instanceof Error ? e : new Error("An unexpected error occurred");
 			alert(error.message);
 		}
-		isDeleteInvoiceModalOpen = false;
 	};
 </script>
 
