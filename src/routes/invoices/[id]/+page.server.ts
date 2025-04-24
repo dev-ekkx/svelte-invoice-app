@@ -3,7 +3,8 @@ import { invoiceTable as invoices, itemsTable as items } from "$lib/server/db/sc
 import { eq } from "drizzle-orm";
 import type { PageServerLoad } from "./$types";
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, depends }) => {
+	depends("app:invoice");
 	try {
 		const invoiceNumber = params.id;
 		const result = await db

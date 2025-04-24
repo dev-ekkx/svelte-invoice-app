@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { ButtonInterface } from "../interfaces";
-  import { cva } from "class-variance-authority";
-  import { twMerge } from "tailwind-merge";
-  import { cn } from "$lib/utils/utils";
-  import plusIcon from "$lib/assets/plus.svg";
+	import type { ButtonInterface } from "../interfaces";
+	import { cva } from "class-variance-authority";
+	import { twMerge } from "tailwind-merge";
+	import { cn } from "$lib/utils/utils";
+	import plusIcon from "$lib/assets/plus.svg";
 
-  let { children, disabled, isIcon, size, color, ...otherProps }: ButtonInterface = $props();
+	let { children, disabled, isIcon, size, color, ...otherProps }: ButtonInterface = $props();
 	const classProp = otherProps.class;
 
 	const button = cva(
