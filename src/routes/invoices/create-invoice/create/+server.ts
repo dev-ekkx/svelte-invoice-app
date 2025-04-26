@@ -1,8 +1,8 @@
-import type { RequestHandler } from "@sveltejs/kit";
 import type { InvoiceForm } from "$lib/interfaces";
-import { generateInvoiceNumber } from "$lib/utils/utils";
 import { db } from "$lib/server/db";
 import { invoiceTable, itemsTable } from "$lib/server/db/schema";
+import { generateInvoiceNumber } from "$lib/utils/utils";
+import type { RequestHandler } from "@sveltejs/kit";
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
@@ -40,7 +40,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		return new Response(JSON.stringify({ message: "Invoice created successfully" }), {
 			status: 201
-		}); // return new Response(JSON.stringify({ message: "Invoice created successfully" }));
+		});
 	} catch (e) {
 		const error = e instanceof Error ? e.message : "An unknown error occurred";
 		return new Response(JSON.stringify({ error }), { status: 500 });
