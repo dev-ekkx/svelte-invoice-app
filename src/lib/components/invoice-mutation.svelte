@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Input from "$lib/components/input.svelte";
-	import Button from "$lib/components/button.svelte";
-	import type { ItemInterface } from "$lib/interfaces";
-	import { fade, fly } from "svelte/transition";
-	import { updateInvoiceMutation } from "$lib/store/index.svelte";
-	import { createInvoiceForm } from "$lib/constants";
 	import { goto } from "$app/navigation";
+	import Button from "$lib/components/button.svelte";
+	import Input from "$lib/components/input.svelte";
+	import { createInvoiceForm } from "$lib/constants";
+	import type { ItemInterface } from "$lib/interfaces";
+	import { updateInvoiceMutation } from "$lib/store/index.svelte";
+	import { fade, fly } from "svelte/transition";
 
 	let dropdownItems = [
 		{ value: "net-30", label: "Net 30 days", selected: true },
@@ -47,13 +47,16 @@
 		invoiceForm.items = invoiceForm.items.filter((item) => item.id !== id);
 	};
 
-	const formSubmit = async () => {
+	const formSubmit = async (status: "pending" | "draft") => {
 		const response = await fetch("/invoices/create-invoice/create", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
-			body: JSON.stringify(invoiceForm)
+			body: JSON.stringify({
+				invoiceForm,
+				status
+			})
 		});
 
 		const result: { message: string; error: string } = await response.json();
@@ -193,10 +196,12 @@
 		<div class="flex items-center justify-between gap-4">
 			<Button color="tertiary" onclick={() => updateInvoiceMutation(false)}>Discard</Button>
 			<div class="flex items-center gap-4">
-				<Button class="bg-neutral-300 font-bold text-purple-200 hover:bg-neutral-300"
+				<Button
+					class="bg-neutral-300 font-bold text-purple-200 hover:bg-neutral-300"
+					onclick={() => formSubmit("draft")}
 					>Save as Draft
 				</Button>
-				<Button onclick={() => formSubmit()}>Save & Send</Button>
+				<Button onclick={() => formSubmit("pending")}>Save & Send</Button>
 			</div>
 		</div>
 	</form>
