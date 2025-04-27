@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
 	import arrowRight from "$lib/assets/arrow-right.svg";
 	import StatusChip from "$lib/components/status-chip.svelte";
 	import type { InvoiceInterface } from "$lib/interfaces";
 	import { formatAmount, formatDueDate } from "$lib/utils/utils";
-	import { goto } from "$app/navigation";
 
 	let invoice: InvoiceInterface = $props();
 </script>

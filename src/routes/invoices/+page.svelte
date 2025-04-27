@@ -1,20 +1,32 @@
 <script lang="ts">
 	import emptyState from "$lib/assets/empty.svg";
-	import Invoice from "$lib/components/invoice.svelte";
+	import Button from "$lib/components/button.svelte";
 	import InvoiceMutation from "$lib/components/invoice-mutation.svelte";
-	import { fade } from "svelte/transition";
+	import Invoice from "$lib/components/invoice.svelte";
+	import type { InvoiceInterface } from "$lib/interfaces/index.js";
 	import {
 		setInvoiceTotal,
 		showInvoiceMutation,
 		totalInvoices,
 		updateInvoiceMutation
 	} from "$lib/store/index.svelte";
-	import type { InvoiceInterface } from "$lib/interfaces/index.js";
-	import Button from "$lib/components/button.svelte";
+	import { untrack } from "svelte";
+	import { fade } from "svelte/transition";
 
 	let { data } = $props();
-	const invoices = data.invoices as InvoiceInterface[];
-	setInvoiceTotal(invoices.length ?? 0);
+
+	let invoices = $state<InvoiceInterface[]>([]);
+
+	$effect(() => {
+		console.log(data);
+		invoices = data.invoices as InvoiceInterface[];
+		untrack(() => {
+			setInvoiceTotal(invoices.length ?? 0);
+		});
+		return () => {
+			invoices = [];
+		};
+	});
 
 	const createInvoice = () => {
 		updateInvoiceMutation(true);

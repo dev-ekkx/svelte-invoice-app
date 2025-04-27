@@ -43,7 +43,7 @@
 	});
 </script>
 
-<button {...otherProps} disabled class={buttonClass}>
+<button {...otherProps} {disabled} class={buttonClass}>
 	{#if isIcon}
 		<img src={plusIcon} alt="plus icon" class="mr-2" decoding="async" />
 	{/if}
