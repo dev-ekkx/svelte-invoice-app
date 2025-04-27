@@ -8,7 +8,6 @@ export const POST: RequestHandler = async ({ request }) => {
 	try {
 		const { items, billTo, billFrom, ...rest }: InvoiceForm = await request.json();
 		const currentDate = new Date(rest.invoiceDate);
-		console.log(currentDate);
 		const paymentDueDate = rest.paymentTerms.split("-")[1].trim();
 		currentDate.setDate(currentDate.getDate() + +paymentDueDate);
 

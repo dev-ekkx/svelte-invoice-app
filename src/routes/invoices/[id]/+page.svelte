@@ -64,8 +64,6 @@
 				throw new Error(error.message);
 			}
 			invalidate((url) => url.pathname.includes("/invoices"));
-			const result = await res.json();
-			console.log(result.message);
 			isMarkAsPaidModalOpen = false;
 		} catch (e) {
 			const error = e instanceof Error ? e : new Error("An unexpected error occurred");
@@ -87,8 +85,6 @@
 
 			await goto("/invoices");
 			invalidate((url) => url.pathname.includes("/invoices"));
-			const result = await res.json();
-			console.log(result.message);
 			isDeleteInvoiceModalOpen = false;
 		} catch (e) {
 			const error = e instanceof Error ? e : new Error("An unexpected error occurred");
