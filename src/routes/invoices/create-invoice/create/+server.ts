@@ -1,4 +1,4 @@
-import type { InvoiceForm } from "$lib/interfaces";
+import type { InvoiceForm } from "$lib/interfaces/index";
 import { db } from "$lib/server/db";
 import { invoiceTable, itemsTable } from "$lib/server/db/schema";
 import { generateInvoiceNumber } from "$lib/utils/utils";
@@ -6,14 +6,21 @@ import type { RequestHandler } from "@sveltejs/kit";
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
-		const { items, billTo, billFrom, ...rest }: InvoiceForm = await request.json();
+		const {
+			invoiceForm,
+			status
+		}: {
+			invoiceForm: InvoiceForm;
+			status: "pending" | "draft";
+		} = await request.json();
+		const { items, billTo, billFrom, ...rest } = invoiceForm;
 		const currentDate = new Date(rest.invoiceDate);
 		const paymentDueDate = rest.paymentTerms.split("-")[1].trim();
 		currentDate.setDate(currentDate.getDate() + +paymentDueDate);
 
 		const invoice = {
 			invoiceNumber: generateInvoiceNumber(),
-			status: "pending",
+			status: status,
 			...rest,
 			invoiceDate: new Date(rest.invoiceDate).toISOString(),
 			invoiceDueDate: new Date(currentDate).toISOString(),
